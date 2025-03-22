@@ -1,0 +1,54 @@
+body {
+    font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #fefefe;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    font-size: 20px;
+    color: orange;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.btn {
+    font-size: 14px;
+}
+
+h1, h2, h3 {
+    color: #444;
+}
+
+/* ページネーション用 */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
