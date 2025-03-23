@@ -19,11 +19,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/products', [ProductController::class, 'index']);             // 商品一覧
-Route::get('/products/{id}', [ProductController::class, 'show']);         // 商品詳細
-Route::get('/products/{id}/update', [ProductController::class, 'edit']);  // 商品編集画面
-Route::post('/products/{id}/update', [ProductController::class, 'update']); // 商品更新
-Route::get('/products/register', [ProductController::class, 'create']);   // 商品登録画面
-Route::post('/products/register', [ProductController::class, 'store']);   // 商品登録処理
-Route::get('/products/search', [ProductController::class, 'search']);     // 商品検索
-Route::post('/products/{id}/delete', [ProductController::class, 'destroy']); // 商品削除
+// 商品登録画面＆処理
+Route::get('/products/register', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products/register', [ProductController::class, 'store'])->name('products.store');
+
+// 商品一覧・検索
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/search', [ProductController::class, 'search']);
+
+// 商品詳細（1つだけ）
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+// 編集（パスを /edit に変更）
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+Route::post('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
+
+// 削除
+Route::post('/products/{id}/delete', [ProductController::class, 'destroy'])->name('products.destroy');

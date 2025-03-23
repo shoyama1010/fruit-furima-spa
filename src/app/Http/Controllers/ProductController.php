@@ -38,6 +38,7 @@ class ProductController extends Controller
             'image' => $path,
         ]);
 
+
         $product->seasons()->sync($request->seasons);
 
         return redirect('/products');

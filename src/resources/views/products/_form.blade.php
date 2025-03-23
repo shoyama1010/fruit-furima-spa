@@ -37,4 +37,4 @@
     @endforeach
 </div>
 
-<button type="submit" class="btn btn-primary">保存</button>
+<button type="submit" class="btn btn-primary">登録</button>
