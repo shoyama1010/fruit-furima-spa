@@ -8,8 +8,13 @@
 http://localhost
 
 # 機能一覧
+・商品検索機能（実装中）
 
+・画像アップロード機能
 
+・複数カテゴリー機能
+
+・ソート機能（実装中）
 
 # 使用技術
 ・Laravel 8
@@ -22,8 +27,6 @@ http://localhost
 ・css
 
 ・mysql 8.0.26
-
-・メール認証：mailhog
 
 ・stripe
 
