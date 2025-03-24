@@ -1,5 +1,5 @@
 body {
-    font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     background-color: #f9f9f9;
     color: #333;
     margin: 0;
@@ -13,7 +13,7 @@ header {
     font-weight: bold;
     font-size: 20px;
     color: orange;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .container {
@@ -43,7 +43,9 @@ header {
     font-size: 14px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     color: #444;
 }
 
@@ -52,5 +54,3 @@ h1, h2, h3 {
     justify-content: center;
     margin-top: 20px;
 }
-
-

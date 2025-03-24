@@ -1,12 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>新規登録</h1>
 <h2 class="mb-4 text-center">商品登録</h2>
 
 <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" class="mx-auto" style="max-width: 600px;">
     @csrf
-    
+
     {{-- 商品名 --}}
     <div class="mb-3">
         <label for="name" class="form-label">商品名 <span class="text-danger">※</span></label>

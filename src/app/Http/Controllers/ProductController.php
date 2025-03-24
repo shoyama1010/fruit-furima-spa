@@ -9,9 +9,25 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('seasons')->latest()->get();
+        $query = Product::with('seasons');
+
+        // 検索処理
+        if ($request->filled('keyword')) {
+            $query->where('name', 'like', "%{$request->keyword}%");
+        }
+
+        // 並び替え
+        if ($request->sort === 'high') {
+            $query->orderBy('price', 'desc');
+        } elseif ($request->sort === 'low') {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->latest(); // デフォルト（新着順）
+        }
+
+        $products = $query->get();
         return view('products.index', compact('products'));
     }
 
@@ -73,15 +89,15 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    public function search(Request $request)
-    {
-        $query = Product::query();
+    // public function search(Request $request)
+    // {
+    //     $query = Product::query();
 
-        if ($request->filled('keyword')) {
-            $query->where('name', 'like', "%{$request->keyword}%");
-        }
+    //     if ($request->filled('keyword')) {
+    //         $query->where('name', 'like', "%{$request->keyword}%");
+    //     }
 
-        $products = $query->with('seasons')->get();
-        return view('products.index', compact('products'));
-    }
+    //     $products = $query->with('seasons')->get();
+    //     return view('products.index', compact('products'));
+    // }
 }

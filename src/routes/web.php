@@ -25,7 +25,7 @@ Route::post('/products/register', [ProductController::class, 'store'])->name('pr
 
 // 商品一覧・検索
 Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/search', [ProductController::class, 'search']);
+// Route::get('/products/search', [ProductController::class, 'search']);
 
 // 商品詳細（1つだけ）
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
