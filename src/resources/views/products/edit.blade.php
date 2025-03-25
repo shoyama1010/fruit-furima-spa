@@ -1,73 +1,58 @@
+
+
+
 @extends('layouts.app')
 
 @section('content')
-<h1 class="mb-4">編集：{{ $product->name }}</h1>
+<p class="mb-4">商品一覧>{{ $product->name }}</p>
 
-<form method="POST" action="{{ url('/products/' . $product->id . '/update') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
     @csrf
-    @method('POST')
+    @method('PUT')
 
-    {{-- 商品名 --}}
-    <div class="mb-3">
-        <label class="form-label">商品名</label>
-        <input type="text" name="name" value="{{ old('name', $product->name) }}" class="form-control @error('name') is-invalid @enderror">
-        @error('name')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+    <div class="row g-4 align-items-start">
+        <!-- 左：画像 -->
+        <div class="col-md-4">
+            <label for="image" class="form-label">商品画像</label>
+            <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid mb-2" style="max-height: 200px; object-fit: cover;">
+            <input type="file" name="image" class="form-control">
+        </div>
 
-    {{-- 金額 --}}
-    <div class="mb-3">
-        <label class="form-label">価格</label>
-        <input type="number" name="price" value="{{ old('price', $product->price) }}" class="form-control @error('price') is-invalid @enderror">
-        @error('price')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-
-    {{-- 季節カテゴリ --}}
-    <div class="mb-3">
-        <label class="form-label">季節</label>
-        @foreach ($seasons as $season)
-            <div class="form-check form-check-inline">
-                <input type="checkbox" name="seasons[]" value="{{ $season->id }}"
-                    class="form-check-input"
-                    {{ in_array($season->id, old('seasons', $product->seasons->pluck('id')->toArray())) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $season->name }}</label>
+        <!-- 右：名前、価格、季節 -->
+        <div class="col-md-8">
+            <div class="mb-3">
+                <label for="name" class="form-label">商品名</label>
+                <input type="text" name="name" class="form-control" value="{{ $product->name }}">
             </div>
-        @endforeach
-        @error('seasons')
-        <div class="text-danger d-block">{{ $message }}</div>
-        @enderror
+            <div class="mb-3">
+                <label for="price" class="form-label">価格</label>
+                <input type="number" name="price" class="form-control" value="{{ $product->price }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">季節</label><br>
+                @foreach ($seasons as $season)
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" name="seasons[]" value="{{ $season->id }}" class="form-check-input"
+                               {{ $product->seasons->contains($season->id) ? 'checked' : '' }}>
+                        <label class="form-check-label">{{ $season->name }}</label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
-    {{-- 画像 --}}
-    <div class="mb-3">
-        <label class="form-label">商品画像</label>
-        @if ($product->image)
-            <img src="{{ asset('storage/' . $product->image) }}" alt="商品画像" class="img-thumbnail mt-2" width="200">
-        @endif
-        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
-
-        @error('image')
-        <div class="invalid-feedback d-block">{{ $message }}</div>
-        @enderror
+    <!-- 説明 -->
+    <div class="mb-4 mt-4">
+        <label for="description" class="form-label">商品説明</label>
+        <textarea name="description" class="form-control" rows="4">{{ $product->description }}</textarea>
     </div>
 
-    {{-- 商品説明 --}}
-    <div class="mb-3">
-        <label class="form-label">商品説明</label>
-        <textarea name="description" rows="4" class="form-control @error('description') is-invalid @enderror">{{ old('description', $product->description) }}</textarea>
-        @error('description')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-
-    {{-- ボタン --}}
-    <div class="mt-4 d-flex justify-content-center gap-3">
-        <a href="{{ url('/products') }}" class="btn btn-secondary px-5">戻る</a>
-        <button type="submit" class="btn btn-warning px-5">変更を保存</button>
+    <!-- ボタン -->
+    <div class="d-flex justify-content-between">
+        <a href="{{ url('/products') }}" class="btn btn-secondary">戻る</a>
+        <button type="submit" class="btn btn-warning">変更を保存</button>
     </div>
 </form>
+
 
 @endsection

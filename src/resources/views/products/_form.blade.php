@@ -22,11 +22,6 @@
 </div>
 
 <div class="mb-3">
-    <label class="form-label">商品説明</label>
-    <textarea name="description" class="form-control" rows="4">{{ old('description', $product->description ?? '') }}</textarea>
-</div>
-
-<div class="mb-3">
     <label class="form-label">季節カテゴリ</label><br>
     @foreach ($seasons as $season)
         <label class="me-3">
@@ -35,6 +30,11 @@
             {{ $season->name }}
         </label>
     @endforeach
+</div>
+
+<div class="mb-3">
+    <label class="form-label">商品説明</label>
+    <textarea name="description" class="form-control" rows="4">{{ old('description', $product->description ?? '') }}</textarea>
 </div>
 
 <button type="submit" class="btn btn-primary">登録</button>

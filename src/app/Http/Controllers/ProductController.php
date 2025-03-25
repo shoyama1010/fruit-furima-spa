@@ -11,23 +11,8 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with('seasons');
 
-        // 検索処理
-        if ($request->filled('keyword')) {
-            $query->where('name', 'like', "%{$request->keyword}%");
-        }
-
-        // 並び替え
-        if ($request->sort === 'high') {
-            $query->orderBy('price', 'desc');
-        } elseif ($request->sort === 'low') {
-            $query->orderBy('price', 'asc');
-        } else {
-            $query->latest(); // デフォルト（新着順）
-        }
-
-        $products = $query->get();
+        $products = Product::with('seasons')->latest()->get();
         return view('products.index', compact('products'));
     }
 
@@ -89,15 +74,25 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    // public function search(Request $request)
-    // {
-    //     $query = Product::query();
+    public function search(Request $request)
+    {
+        $query = Product::with('seasons');
 
-    //     if ($request->filled('keyword')) {
-    //         $query->where('name', 'like', "%{$request->keyword}%");
-    //     }
+        // 検索ワード
+        if ($request->filled('keyword')) {
+            $query->where('name', 'like', "%{$request->keyword}%");
+        }
 
-    //     $products = $query->with('seasons')->get();
-    //     return view('products.index', compact('products'));
-    // }
+        // ソート処理
+        if ($request->sort === 'high') {
+            $query->orderBy('price', 'desc');
+        } elseif ($request->sort === 'low') {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->latest(); // デフォルト（新着順）
+        }
+
+        $products = $query->get();
+        return view('products.index', compact('products'));
+    }
 }

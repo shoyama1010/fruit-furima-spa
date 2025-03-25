@@ -46,7 +46,7 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 @foreach ($products as $product)
                 <div class="col">
-                    <a href="{{ url('/products/' . $product->id) }}" class="text-decoration-none text-dark">
+                    <a href="{{ route('products.edit',$product->id) }}" class="text-decoration-none text-dark">
                         <div class="card h-100 shadow-sm">
                             <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
                             <div class="card-body text-center">
@@ -58,7 +58,10 @@
                 </div>
                 @endforeach
             </div>
+
         </div>
     </div>
 </div>
 @endsection
+
+

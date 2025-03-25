@@ -1,37 +1,34 @@
 /* 商品一覧用のスタイル */
-.products-header {
+/* .products-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
     margin-bottom: 1rem;
-}
+} */
 
-.products-header form {
+/* .products-header form {
     display: flex;
     gap: 0.5rem;
-}
-
+} */
 
 /* === ページ全体のレイアウト === */
-.products-page-container {
+/* .products-page-container {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 40px;
-    /* max-width: 1000px;
-    margin: 0 auto;
-    padding-top: 20px; */
-}
+
+} */
 
 /* === 左カラム：検索フォーム === */
 .search-sidebar {
-    width: 250px;
-    padding-top: 10px;
-    /* padding: 10px; */
-    /* background-color: #fdfdfd;
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
     border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
 }
 
 .search-sidebar form {
@@ -41,7 +38,7 @@
 }
 
 .search-sidebar h2 {
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: 10px;
 }
 
@@ -101,4 +98,9 @@
 .pagination {
     justify-content: center;
     margin-top: 20px;
+}
+
+/* 商品一覧側に余白やボタン調整（オプション） */
+.product-list-area .btn-warning {
+    margin-top: 5px;
 }
