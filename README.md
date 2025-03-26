@@ -1,5 +1,7 @@
 # fruit-furima
 
+![Image](https://github.com/user-attachments/assets/f03adf76-1d53-480f-8c08-c3a9a7614742)
+
 # 作成した目的
 
 
@@ -8,13 +10,13 @@
 http://localhost
 
 # 機能一覧
-・商品検索機能（実装中）
+・商品検索機能
 
 ・画像アップロード機能
 
 ・複数カテゴリー機能
 
-・ソート機能（実装中）
+・ソート機能
 
 # 使用技術
 ・Laravel 8
@@ -36,6 +38,7 @@ http://localhost
 
 
 # ER図
+
 
 
 # 環境構築
