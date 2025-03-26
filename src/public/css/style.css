@@ -17,7 +17,8 @@ header {
 }
 
 .container {
-    max-width: 1000px;
+    /* max-width: 1000px; */
+    max-width: 1500px; /* 横幅一杯に変更 */
     margin: 30px auto;
     padding: 0 20px;
 }
@@ -53,4 +54,18 @@ h3 {
 .pagination {
     justify-content: center;
     margin-top: 20px;
+}
+
+.card-img-top {
+    /* height: 280px; */
+    width: 300px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.2rem;
+}
+
+.card-text {
+    font-size: 1.1rem;
 }
