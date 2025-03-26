@@ -19,16 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// 商品一覧・検索
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+
 // 商品登録画面＆処理
 Route::get('/products/register', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/register', [ProductController::class, 'store'])->name('products.store');
-
-// 商品一覧・検索
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
-
-// 商品詳細（1つだけ）
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 // 編集（パスを /edit に変更）
 // Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
@@ -36,6 +33,7 @@ Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
 
 // Route::post('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
-
+// 商品詳細（1つだけ）
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 // 削除
 Route::post('/products/{id}/delete', [ProductController::class, 'destroy'])->name('products.destroy');

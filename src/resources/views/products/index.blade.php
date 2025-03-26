@@ -10,9 +10,10 @@
     <div class="row">
         <!-- 左カラム：検索フォーム -->
         <!-- <div class="search-sidebar"> -->
-        <div class="col-md-3 mb-4">
+            <div class="col-md-3 mb-4">
             <!-- <div class="col-md-3"> -->
-            <form method="GET" action="{{ url('/products') }}">
+            <form method="GET" action="{{ route('products.search') }}">
+                @csrf
                 <!-- <h2 class="mb-3">商品一覧</h2> -->
                 <h2> 商品一覧</h2>
                 <div class="mb-3">
@@ -28,8 +29,8 @@
                     <label for="sort" class="form-label">価格で並べ替え:</label>
                     <select class="form-select" name="sort" onchange="this.form.submit()">
                         <option value="">選択してください</option>
-                        <option value="high" {{ request('sort') === 'high' ? 'selected' : '' }}>金額高い順</option>
-                        <option value="low" {{ request('sort') === 'low' ? 'selected' : '' }}>金額低い順</option>
+                        <option value="high" {{ request('sort') === 'high' ? 'selected' : '' }}>高い順に表示</option>
+                        <option value="low" {{ request('sort') === 'low' ? 'selected' : '' }}>安い順に表示</option>
                     </select>
                 </div>
             </form>
@@ -63,5 +64,3 @@
     </div>
 </div>
 @endsection
-
-

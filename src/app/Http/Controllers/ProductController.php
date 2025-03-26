@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-
+        
         $products = Product::with('seasons')->latest()->get();
         return view('products.index', compact('products'));
     }
