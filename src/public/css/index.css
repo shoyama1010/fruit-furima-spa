@@ -103,3 +103,8 @@
 .product-list-area .btn-warning {
     margin-top: 5px;
 }
+
+.pagination {
+    justify-content: center;
+}
+

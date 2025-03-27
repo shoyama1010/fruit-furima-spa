@@ -21,12 +21,23 @@
         .container {
             padding: 20px;
         }
+
+        /* 横幅切り替え用 */
+        .wide-page .container {
+            max-width: 1500px;
+        }
+
+        .narrow-page .container {
+            max-width: 1000px;
+        }
     </style>
+    
     <!-- 個別ページ用（後に読み込む）-->
     @stack('styles')
 </head>
 
-<body>
+<!-- 共通レイアウト -->
+<body class="@yield('body-class')">
     <header>
         mogitate
     </header>

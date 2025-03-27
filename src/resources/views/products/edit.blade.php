@@ -1,9 +1,7 @@
-
-
-
 @extends('layouts.app')
 
 @section('content')
+@section('body-class', 'narrow-page') {{-- 標準サイズ --}}
 <p class="mb-4">商品一覧>{{ $product->name }}</p>
 
 <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
@@ -31,11 +29,11 @@
             <div class="mb-3">
                 <label class="form-label">季節</label><br>
                 @foreach ($seasons as $season)
-                    <div class="form-check form-check-inline">
-                        <input type="checkbox" name="seasons[]" value="{{ $season->id }}" class="form-check-input"
-                               {{ $product->seasons->contains($season->id) ? 'checked' : '' }}>
-                        <label class="form-check-label">{{ $season->name }}</label>
-                    </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="seasons[]" value="{{ $season->id }}" class="form-check-input"
+                        {{ $product->seasons->contains($season->id) ? 'checked' : '' }}>
+                    <label class="form-check-label">{{ $season->name }}</label>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -47,12 +45,30 @@
         <textarea name="description" class="form-control" rows="4">{{ $product->description }}</textarea>
     </div>
 
-    <!-- ボタン -->
-    <div class="d-flex justify-content-between">
-        <a href="{{ url('/products') }}" class="btn btn-secondary">戻る</a>
-        <button type="submit" class="btn btn-warning">変更を保存</button>
-    </div>
+    {{-- ボタン全体のレイアウト --}}
+    <div class="d-flex justify-content-center gap-3 mt-4">
+
+        {{-- 左側：中央寄せ用のボタン群 --}}
+        <div class="d-flex justify-content-center w-100 gap-3">
+            <a href="{{ url('/products') }}" class="btn btn-secondary">← 戻る</a>
+            <button type="submit" class="btn btn-warning">変更を保存</button>
+        </div>
 </form>
+
+{{-- 右側：削除ボタン --}}
+<form method="POST"
+    action="{{ route('products.destroy', $product->id) }}"
+    onsubmit="alert('確認ダイアログのテスト'); return false;" class="ms-auto">
+    @csrf
+    @method('DELETE')
+    <!-- メソッドスプーフィング追加-->
+    <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">
+        🗑 削除
+    </button>
+</form>
+
+</div>
+
 
 
 @endsection

@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Season;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        
-        $products = Product::with('seasons')->latest()->get();
+
+        // $products = Product::with('seasons')->latest()->get();
+        $products = Product::with('seasons')->latest()->paginate(6);
         return view('products.index', compact('products'));
     }
 
@@ -67,12 +70,20 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
+
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        // 関連する画像ファイルも削除する場合
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
         $product->delete();
-        return redirect('/products');
+
+        return redirect('/products')->with('success', '商品を削除しました。');
     }
+
 
     public function search(Request $request)
     {
@@ -92,7 +103,8 @@ class ProductController extends Controller
             $query->latest(); // デフォルト（新着順）
         }
 
-        $products = $query->get();
+        // $products = $query->get();
+        $products = $query->paginate(6);
         return view('products.index', compact('products'));
     }
 }

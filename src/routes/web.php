@@ -28,12 +28,12 @@ Route::get('/products/register', [ProductController::class, 'create'])->name('pr
 Route::post('/products/register', [ProductController::class, 'store'])->name('products.store');
 
 // 編集（パスを /edit に変更）
-// Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+// Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+// Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::put('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
 
-// Route::post('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
 // 商品詳細（1つだけ）
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 // 削除
-Route::post('/products/{id}/delete', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::delete('/products/{id}/delete', [ProductController::class, 'destroy'])->name('products.destroy');

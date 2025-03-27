@@ -5,12 +5,13 @@
 @endpush
 
 @section('content')
+@section('body-class', 'wide-page') {{-- 横幅を広くしたい画面 --}}
 <div class="container">
     <!-- <div class="products-page-container"> -->
     <div class="row">
         <!-- 左カラム：検索フォーム -->
         <!-- <div class="search-sidebar"> -->
-            <div class="col-md-3 mb-4">
+        <div class="col-md-3 mb-4">
             <!-- <div class="col-md-3"> -->
             <form method="GET" action="{{ route('products.search') }}">
                 @csrf
@@ -58,8 +59,12 @@
                     </a>
                 </div>
                 @endforeach
-            </div>
 
+            </div>
+            <!-- ページネーション -->
+            <div class="d-flex justify-content-center mt-4">
+                {{ $products->links() }}
+            </div>
         </div>
     </div>
 </div>
