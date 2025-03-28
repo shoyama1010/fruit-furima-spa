@@ -18,6 +18,8 @@ http://localhost
 
 ・ソート機能
 
+・削除機能
+
 # 使用技術
 ・Laravel 8
 
