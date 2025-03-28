@@ -23,7 +23,8 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        // return [
+        $rules = [
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -31,6 +32,15 @@ class ProductRequest extends FormRequest
             'seasons' => 'required|array',
             'seasons.*' => 'exists:seasons,id',
         ];
+
+        // 画像は登録時のみ必須（update時は不要）
+        if ($this->isMethod('post')) {
+            $rules['image'] = 'required|image|mimes:jpeg,png|max:2048';
+        } elseif ($this->isMethod('put')) {
+            $rules['image'] = 'nullable|image|mimes:jpeg,png|max:2048';
+        }
+
+        return $rules;
     }
 
     public function attributes()

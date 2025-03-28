@@ -14,7 +14,6 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        // $products = Product::with('seasons')->latest()->get();
         $products = Product::with('seasons')->latest()->paginate(6);
         return view('products.index', compact('products'));
     }
@@ -70,7 +69,6 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
@@ -83,7 +81,6 @@ class ProductController extends Controller
 
         return redirect('/products')->with('success', '商品を削除しました。');
     }
-
 
     public function search(Request $request)
     {
