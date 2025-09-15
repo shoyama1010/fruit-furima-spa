@@ -4,67 +4,49 @@
 <link rel="stylesheet" href="{{ asset('css/products/index.css') }}">
 @endpush
 
+@section('body-class', 'wide-page')
+
 @section('content')
-@section('body-class', 'wide-page') {{-- 横幅を広くしたい画面 --}}
-<div class="container">
-    <!-- <div class="products-page-container"> -->
-    <div class="row">
-        <!-- 左カラム：検索フォーム -->
-        <!-- <div class="search-sidebar"> -->
-        <div class="col-md-3 mb-4">
-            <!-- <div class="col-md-3"> -->
-            <form method="GET" action="{{ route('products.search') }}">
-                @csrf
-                <!-- <h2 class="mb-3">商品一覧</h2> -->
-                <h2> 商品一覧</h2>
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="keyword" value="{{ request('keyword') }}" placeholder="商品名で検索">
-                </div>
-                <div class="d-grid">
-                    <button class="btn btn-outline-primary" type="submit">検索</button>
-                </div>
+<!-- 商品一覧 + 商品登録ボタン -->
+<div class="page-header">
+    <h2>商品一覧</h2>
+    <a href="{{ route('products.create') }}" class="register-button">＋ 商品を登録</a>
+</div>
 
-                <!-- ソートボックス -->
-                <div class="mb-4">
-                    <!-- <div class="mb-3"> -->
-                    <label for="sort" class="form-label">価格で並べ替え:</label>
-                    <select class="form-select" name="sort" onchange="this.form.submit()">
-                        <option value="">選択してください</option>
-                        <option value="high" {{ request('sort') === 'high' ? 'selected' : '' }}>高い順に表示</option>
-                        <option value="low" {{ request('sort') === 'low' ? 'selected' : '' }}>安い順に表示</option>
-                    </select>
-                </div>
-            </form>
-        </div>
+<div class="product-container">
+    <!-- 左カラム：検索とソート -->
+    <div class="sidebar">
+        <form method="GET" action="{{ route('products.search') }}" class="search-form">
+            @csrf
 
-        <!-- 右カラム：商品一覧と登録ボタン -->
-        <!-- <div class="product-list-area"> -->
-        <div class="col-md-9">
-            <div class="d-flex justify-content-end mb-3">
-                <a href="{{ route('products.create') }}" class="btn btn-warning">＋ 商品を登録</a>
-            </div>
+            <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="商品名で検索">
+            <button type="submit" class="search-button">検索</button>
 
-            <!-- 商品カード一覧 -->
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                @foreach ($products as $product)
-                <div class="col">
-                    <a href="{{ route('products.edit',$product->id) }}" class="text-decoration-none text-dark">
-                        <div class="card h-100 shadow-sm">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{ $product->name }}</h5>
-                                <p class="card-text">¥{{ $product->price }}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                @endforeach
+            <label for="sort">価格で並べ替え:</label>
 
-            </div>
-            <!-- ページネーション -->
-            <div class="d-flex justify-content-center mt-4">
-                {{ $products->links() }}
-            </div>
+            <select name="sort" onchange="this.form.submit()">
+                <option value="">選択してください</option>
+                <option value="high" {{ request('sort') === 'high' ? 'selected' : '' }}>高い順に表示</option>
+                <option value="low" {{ request('sort') === 'low' ? 'selected' : '' }}>安い順に表示</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- 右カラム：商品一覧 -->
+    <div class="product-list">
+
+        @foreach ($products as $product)
+        <a href="{{ route('products.edit',$product->id) }}" class="product-card">
+            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+
+            <h3>{{ $product->name }}</h3>
+            <p class="card-price">¥{{ $product->price }}</p>
+        </a>
+        @endforeach
+
+        <!-- ページネーション -->
+        <div class="pagination">
+            {{ $products->appends(request()->query())->links() }}
         </div>
     </div>
 </div>

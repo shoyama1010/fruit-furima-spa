@@ -19,12 +19,11 @@
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
         <!-- 右：名前、価格、季節 -->
         <div class="col-md-8">
             <div class="mb-3">
                 <label for="name" class="form-label">商品名</label>
-                <!-- <input type="text" name="name" class="form-control" value="{{ $product->name }}"> -->
+                
                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}">
                 @error('name')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -33,7 +32,7 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">価格</label>
-                <!-- <input type="number" name="price" class="form-control" value="{{ $product->price }}"> -->
+                
                 <input type="number" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ old('price', $product->price) }}">
                 @error('price')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -44,8 +43,7 @@
                 <label class="form-label">季節</label><br>
                 @foreach ($seasons as $season)
                 <div class="form-check form-check-inline">
-                    <!-- <input type="checkbox" name="seasons[]" value="{{ $season->id }}" class="form-check-input"
-                        {{ $product->seasons->contains($season->id) ? 'checked' : '' }}> -->
+                    
                     <input type="checkbox" name="seasons[]" value="{{ $season->id }}"
                         class="form-check-input @error('seasons') is-invalid @enderror"
                         {{ in_array($season->id, old('seasons', $product->seasons->pluck('id')->toArray())) ? 'checked' : '' }}>

@@ -104,4 +104,16 @@ class ProductController extends Controller
         $products = $query->paginate(6);
         return view('products.index', compact('products'));
     }
+
+    public function apiIndex()
+    {
+        $products = Product::with('seasons')->latest()->get();
+        return response()->json($products);
+    }
+
+    public function apiShow($id)
+    {
+        $product = Product::with('seasons')->findOrFail($id);
+        return response()->json($product);
+    }
 }
