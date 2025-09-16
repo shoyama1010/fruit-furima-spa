@@ -50,7 +50,7 @@ http://localhost
 
 # ER図
 
-![Image](https://github.com/user-attachments/assets/1cfa990a-02df-423e-825d-37491efa7195)
+・・・更新中・・・
 
 # 環境構築
 ## 1 Gitファイルをクローンする
