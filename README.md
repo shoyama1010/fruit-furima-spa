@@ -1,4 +1,4 @@
-# fruit-furima
+# fruit-furima-spa
 
 ![Image](https://github.com/user-attachments/assets/f03adf76-1d53-480f-8c08-c3a9a7614742)
 
