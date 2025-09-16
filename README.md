@@ -10,6 +10,10 @@
 http://localhost
 
 # 機能一覧
+・認証機能
+
+・プロフィール機能
+
 ・商品検索機能
 
 ・画像アップロード機能
@@ -23,9 +27,14 @@ http://localhost
 # 使用技術
 ・Laravel 8
 
+・Next.js 14
+・React.js
+
 ・nginx 1.21.1
 
 ・php 7.4.9
+
+・Node.js
 
 ・html
 ・css
