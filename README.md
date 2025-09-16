@@ -55,7 +55,7 @@ http://localhost
 # 環境構築
 ## 1 Gitファイルをクローンする
 
-git clone https://github.com/shoyama1010/fruit-furima.git
+git clone https://github.com/shoyama1010/fruit-furima-spa.git
 
 ## 2 Dockerコンテナを作成する
 
