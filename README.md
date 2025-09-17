@@ -1,6 +1,6 @@
 # fruit-furima-spa
 
-![Image](https://github.com/user-attachments/assets/f03adf76-1d53-480f-8c08-c3a9a7614742)
+
 <img width="1737" height="867" alt="Image" src="https://github.com/user-attachments/assets/bf23d842-acb7-4cc1-9443-1abd2425363b" />
 
 # 作成した目的
