@@ -105,11 +105,30 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
-    public function apiIndex()
+    public function apiIndex(Request $request)
     {
-        $products = Product::with('seasons')->latest()->get();
+        $query = Product::with('seasons');
+
+        // 🔍 検索機能
+        if ($request->has('search') && $request->search !== '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // ↕ ソート機能
+        if ($request->sort === 'high') {
+            $query->orderBy('price', 'desc');
+        } elseif ($request->sort === 'low') {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->latest();
+        }
+
+        // 📄 ページネーション（1ページ 9 件）
+        $products = $query->paginate(9);
+
         return response()->json($products);
     }
+
 
     public function apiShow($id)
     {

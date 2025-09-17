@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Profile;
 
 class ProfileController extends Controller
 {
@@ -13,16 +14,25 @@ class ProfileController extends Controller
         // User モデルに profile リレーションを定義しておく
 
         return response()->json([
-            'user' => $user,
+            // 'user' => $user,
             // 'name' => $user->name, // usersテーブルから
             // 'email' => $user->email,
             // 'profile' => $user->profile, // hasOneで取得
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ],
+            'profile' => $user->profile, // ← phone_number 含めて返す
         ]);
     }
 
     public function update(Request $request)
     {
         $user = $request->user();
+
+        // プロフィールが存在しなければ新規作成
+        $profile = Profile::firstOrNew(['user_id' => $user->id]);
 
         $validated = $request->validate([
             'postcode' => 'nullable|string|max:10',

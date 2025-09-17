@@ -30,6 +30,14 @@ class AuthController extends Controller
         // Sanctum のトークン発行
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        // プロフィールの初期レコードを作成
+        $user->profile()->create([
+            'postcode' => null,
+            'address' => null,
+            'phone_number' => null,
+            'img_url' => null,
+        ]);
+
         return response()->json([
             'message' => '登録成功',
             'user'    => $user,
@@ -62,23 +70,14 @@ class AuthController extends Controller
 
     }
 
-    // // プロフィール取得（ログイン必須）
-    // public function profile(Request $request): JsonResponse
-    // {
-    //     return response()->json([
-    //         'message' => 'プロフィール情報',
-    //         'user' => $request->user(),
-    //     ], 200);
-   
-    // }
     
-    // // ログアウト
-    // public function logout(Request $request): JsonResponse
-    // {
-    //     $request->user()->currentAccessToken()->delete();
+    // ログアウト
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()->currentAccessToken()->delete();
 
-    //     return response()->json([
-    //         'message' => 'ログアウトしました',
-    //     ], 200);
-    // }
+        return response()->json([
+            'message' => 'ログアウトしました',
+        ], 200);
+    }
 }
