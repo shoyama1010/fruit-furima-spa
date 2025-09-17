@@ -1,7 +1,5 @@
-# fruit-furima-spa
+# fruit-furima-spa（バックエンド）
 
-
-<img width="1737" height="867" alt="Image" src="https://github.com/user-attachments/assets/bf23d842-acb7-4cc1-9443-1abd2425363b" />
 
 # 作成した目的
 
@@ -11,9 +9,6 @@
 http://localhost
 
 # 機能一覧
-・認証機能
-
-・プロフィール機能
 
 ・商品検索機能
 
@@ -28,14 +23,9 @@ http://localhost
 # 使用技術
 ・Laravel 8
 
-・Next.js 14
-・React.js
-
 ・nginx 1.21.1
 
 ・php 7.4.9
-
-・Node.js
 
 ・html
 ・css
