@@ -129,10 +129,29 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-
     public function apiShow($id)
     {
         $product = Product::with('seasons')->findOrFail($id);
         return response()->json($product);
+    }
+
+    public function apiStore(Request $request)
+    {
+        $product = new Product();
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $product->image = $path;
+        }
+
+        $product->save();
+
+        // 中間テーブル seasons を同期
+        $product->seasons()->sync($request->input('seasons', []));
+
+        return response()->json(['message' => '商品を登録しました', 'product' => $product], 201);
     }
 }

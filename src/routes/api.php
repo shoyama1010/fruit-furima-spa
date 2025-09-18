@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Models\Season;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,10 @@ Route::get('/products', [ProductController::class, 'apiIndex']);
 // 詳細ページ遷移表示
 Route::get('/products/{id}', [ProductController::class, 'apiShow']);
 
+// 商品更新＆削除
+Route::post('/products/{id}', [ProductController::class, 'update']);
+Route::delete('/products/{id}', [ProductController::class, 'apiDestroy']);
+
 // ユーザー登録
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -37,3 +42,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::post('/profile', [ProfileController::class, 'update']);
 });
+
+// 季節
+Route::get('/seasons', function () {
+    return response()->json(Season::all());
+});
+
+// 商品登録
+Route::post('/products/register', [ProductController::class, 'store']);
+
+Route::post('/products', [ProductController::class, 'apiStore'])->name('api.products.store');
