@@ -141,6 +141,8 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
+        // $product->user_id = $request->user()->id; // ログインユーザーに紐づける
+        $product->user_id = 1; // ★仮で固定（ログイン不要にする）
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');

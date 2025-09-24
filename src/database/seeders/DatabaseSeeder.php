@@ -14,7 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // ① ユーザーを先に作成
+        $this->call(UserSeeder::class);
+
+        // 2. 商品・季節データを作成
+        $this->call([
+            UserSeeder::class,
+            ProductSeeder::class,
+        ]);
+        
         // 1. 季節データを登録
         $seasonNames = ['春', '夏', '秋', '冬'];
         $seasons = [];
@@ -38,6 +46,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($fruits as $fruit) {
             $product = Product::create([
+                'user_id' => 1, // ★ここ追加
                 'name' => $fruit['name'],
                 'price' => $fruit['price'],
                 'image' => 'products/' . $fruit['image'],
@@ -48,5 +57,6 @@ class DatabaseSeeder extends Seeder
             $seasonIds = array_map(fn($season) => $seasons[$season]->id, $fruit['seasons']);
             $product->seasons()->sync($seasonIds);
         }
+
     }
 }
