@@ -25,14 +25,13 @@ http://localhost
 
 ・nginx 1.21.1
 
-・php 7.4.9
+・php 8.0
 
 ・html
-・css
+
+・css(Tailwind CSS)
 
 ・mysql 8.0.26
-
-・stripe
 
 ・storage（シンボリックリンク）
 
