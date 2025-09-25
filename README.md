@@ -1,7 +1,7 @@
 # fruit-furima-spa（バックエンド）
 
-
 # 作成した目的
+
 
 
 # アプリケーションURL
@@ -37,6 +37,11 @@ http://localhost
 
 # テーブル設計
 
+<img width="751" height="784" alt="Image" src="https://github.com/user-attachments/assets/be8a03fd-82bf-487c-bc48-0d3f49017ac5" />
+
+<img width="753" height="714" alt="Image" src="https://github.com/user-attachments/assets/7bee000f-150e-4129-9f29-be045c6b19a9" />
+
+<img width="841" height="355" alt="Image" src="https://github.com/user-attachments/assets/5802f4cd-f923-4138-8bce-1a264ac37581" />
 
 # ER図
 
