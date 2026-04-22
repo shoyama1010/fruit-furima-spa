@@ -7,87 +7,45 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Models\Season;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth')->get('/user', function (Request $request) {
-    return $request->user();
-});
-// Sanctum 認証が必要なルート
-Route::middleware('auth:sanctum')->group(function () {
-    // ログインユーザー情報
-    Route::get('/user', function (Request $request) {
-        return response()->json($request->user());
-    });
-    // 認証チェック用
-    Route::get('/check-auth', function (Request $request) {
-        return response()->json([
-            'authenticated' => true,
-            'user' => $request->user(),
-        ]);
-    });
-});
-
-// 認証なしで仮のレスポンス
-Route::get('/check-auth', function () {
-    return response()->json([
-        'authenticated' => true,
-        'user' => [
-            'id' => 1,
-            'name' => 'Guest User',
-            'email' => 'guest@example.com',
-        ],
-    ]);
-});
-
-
-// 商品一覧表示
-Route::get('/products', [ProductController::class, 'apiIndex']);
-
-// 詳細ページ遷移表示
-Route::get('/products/{id}', [ProductController::class, 'apiShow']);
-
-// Route::middleware('auth:sanctum')->group(function () {
-
-// 商品登録（CSRF/ログインなし）
-Route::post('/products', [ProductController::class, 'apiStore'])->name('api.products.store');
-// 商品更新
-Route::put('/products/{id}', [ProductController::class, 'update'])->name('api.products.update');;
-
-// 商品削除
-Route::delete('/products/{id}', [ProductController::class, 'apiDestroy'])->name('api.products.destroy');
-// });
-
-// テスト用
-// Route::middleware('auth:sanctum')->get('/check-auth', function (Request $request) {
-//     return response()->json(['user' => $request->user()]);
-// });
-
-// ユーザー登録
+// 認証不要
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Route::middleware('auth:sanctum')->group(function () {
-Route::post('/logout', [AuthController::class, 'logout']);
-
-Route::get('/profile', [ProfileController::class, 'show']);
-Route::post('/profile', [ProfileController::class, 'update']);
-// });
+// 商品一覧・詳細は公開
+Route::get('/products', [ProductController::class, 'apiIndex']);
+Route::get('/products/{id}', [ProductController::class, 'apiShow']);
 
 // 季節
 Route::get('/seasons', function () {
     return response()->json(Season::all());
 });
 
-// 商品登録
-Route::post('/products/register', [ProductController::class, 'store']);
+// 認証が必要
+Route::middleware('auth:sanctum')->group(function () {
+    // ログインユーザー取得
+    Route::get('/user', function (Request $request) {
+        return response()->json($request->user());
+    });
 
-Route::post('/products', [ProductController::class, 'apiStore'])->name('api.products.store');
+    // 認証チェック用（必要なら残す）
+    Route::get('/check-auth', function (Request $request) {
+        return response()->json([
+            'authenticated' => true,
+            'user' => $request->user(),
+        ]);
+    });
+
+    // ログアウト
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // プロフィール
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+
+    // 商品登録・更新・削除
+    Route::post('/products', [ProductController::class, 'apiStore'])->name('api.products.store');
+    // Route::put('/products/{id}', [ProductController::class, 'update'])->name('api.products.update');
+    Route::put('/products/{id}', [ProductController::class, 'apiUpdate'])->name('api.products.update');
+
+    Route::delete('/products/{id}', [ProductController::class, 'apiDestroy'])->name('api.products.destroy');
+});

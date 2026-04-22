@@ -156,4 +156,22 @@ class ProductController extends Controller
 
         return response()->json(['message' => '商品を登録しました', 'product' => $product], 201);
     }
+
+    public function apiUpdate(ProductRequest $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $product->image = $path;
+        }
+
+        $product->update($request->only(['name', 'price', 'description']));
+        $product->seasons()->sync($request->seasons);
+
+        return response()->json([
+            'message' => '商品を更新しました',
+            'product' => $product->load('seasons'),
+        ], 200);
+    }
 }
