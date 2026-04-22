@@ -20,6 +20,8 @@ http://localhost
 
 ・削除機能
 
+・プロフィール機能
+
 # 使用技術
 ・Laravel 8
 
@@ -34,6 +36,10 @@ http://localhost
 ・mysql 8.0.26
 
 ・storage（シンボリックリンク）
+
+・Api/Sanctum
+
+・formrequest
 
 # テーブル設計
 
