@@ -174,4 +174,24 @@ class ProductController extends Controller
             'product' => $product->load('seasons'),
         ], 200);
     }
+
+    public function apiDestroy($id)
+    {
+        $product = Product::findOrFail($id);
+
+        // 画像がある場合は削除
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        // 中間テーブルの関連を外す
+        $product->seasons()->detach();
+
+        // 商品削除
+        $product->delete();
+
+        return response()->json([
+            'message' => '商品を削除しました'
+        ], 200);
+    }
 }

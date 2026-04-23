@@ -23,9 +23,12 @@ Route::get('/seasons', function () {
 // 認証が必要
 Route::middleware('auth:sanctum')->group(function () {
     // ログインユーザー取得
-    Route::get('/user', function (Request $request) {
+    Route::get('/user', function (\Illuminate\Http\Request $request) {
         return response()->json($request->user());
     });
+    // Route::get('/user', function (Request $request) {
+    //     return response()->json($request->user());
+    // });
 
     // 認証チェック用（必要なら残す）
     Route::get('/check-auth', function (Request $request) {
@@ -42,9 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
 
+
     // 商品登録・更新・削除
     Route::post('/products', [ProductController::class, 'apiStore'])->name('api.products.store');
-    // Route::put('/products/{id}', [ProductController::class, 'update'])->name('api.products.update');
+    
     Route::put('/products/{id}', [ProductController::class, 'apiUpdate'])->name('api.products.update');
 
     Route::delete('/products/{id}', [ProductController::class, 'apiDestroy'])->name('api.products.destroy');

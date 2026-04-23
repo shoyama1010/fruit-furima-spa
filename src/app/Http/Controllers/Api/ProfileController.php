@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use App\Models\Profile;
 
 class ProfileController extends Controller
 {
     public function show(Request $request)
     {
         $user = $request->user()->load('profile');
-        // User モデルに profile リレーションを定義しておく
 
         return response()->json([
             'id' => $user->id,
@@ -21,44 +21,43 @@ class ProfileController extends Controller
             'address' => $user->profile?->address,
             'phone_number' => $user->profile?->phone_number,
             'img_url' => $user->profile?->img_url,
-            
         ]);
     }
-    public function update(Request $request)
+
+    public function update(UpdateProfileRequest $request)
     {
         $user = $request->user();
-        // プロフィールが存在しなければ新規作成
-        // $profile = Profile::firstOrNew(['user_id' => $user->id]);
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'postcode' => 'nullable|string|max:10',
-            'address' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:20',
-            'img_url' => 'nullable|image|max:2048', // 画像必須ではない
-        ]);
 
-        // users テーブルの name 更新
+        $validated = $request->validated();
+
+        // users テーブル更新
         $user->update([
             'name' => $validated['name'],
         ]);
 
-        // profiles テーブル用データ
         $profileData = [
             'postcode' => $validated['postcode'] ?? null,
             'address' => $validated['address'] ?? null,
             'phone_number' => $validated['phone_number'] ?? null,
         ];
 
-        // 画像アップロード処理
+        $existingProfile = $user->profile;
+
         if ($request->hasFile('img_url')) {
+            // 古い画像削除
+            if ($existingProfile?->img_url) {
+                $oldPath = str_replace('storage/', '', $existingProfile->img_url);
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+
             $path = $request->file('img_url')->store('profiles', 'public');
             $profileData['img_url'] = 'storage/' . $path;
         }
 
-        // updateOrCreate で新規 or 更新
         $profile = $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
-            // $validated
             $profileData
         );
 
@@ -73,8 +72,6 @@ class ProfileController extends Controller
                 'phone_number' => $profile->phone_number,
                 'img_url' => $profile->img_url,
             ],
-            // 'message' => 'プロフィールを更新しました',
-            // 'profile' => $profile,
-        ]);
+        ], 200);
     }
 }
