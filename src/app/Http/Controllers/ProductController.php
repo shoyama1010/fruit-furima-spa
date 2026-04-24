@@ -35,6 +35,7 @@ class ProductController extends Controller
         $path = $request->file('image') ? $request->file('image')->store('products', 'public') : null;
 
         $product = Product::create([
+            'user_id' => $request->user()->id, // ← 追加
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
@@ -141,8 +142,8 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
-        // $product->user_id = $request->user()->id; // ログインユーザーに紐づける
-        $product->user_id = 1; // ★仮で固定（ログイン不要にする）
+        $product->user_id = $request->user()->id; // ログインユーザーに紐づける
+        // $product->user_id = 1; // ★仮で固定（ログイン不要にする）
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
@@ -161,6 +162,11 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        //  所有者チェック
+        if ($product->user_id !== $request->user()->id) {
+            return response()->json(['message' => '権限がありません'], 403);
+        }
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
             $product->image = $path;
@@ -175,9 +181,14 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function apiDestroy($id)
+    public function apiDestroy(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+
+        // 自分の商品以外は削除不可
+        if ((int)$product->user_id !== (int)$request->user()->id) {
+            return response()->json(['message' => '権限がありません'], 403);
+        }
 
         // 画像がある場合は削除
         if ($product->image && Storage::disk('public')->exists($product->image)) {
@@ -193,5 +204,15 @@ class ProductController extends Controller
         return response()->json([
             'message' => '商品を削除しました'
         ], 200);
+    }
+
+    public function myProducts(Request $request)
+    {
+        $products = Product::with('seasons')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->get();
+
+        return response()->json($products);
     }
 }

@@ -52,4 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'apiUpdate'])->name('api.products.update');
 
     Route::delete('/products/{id}', [ProductController::class, 'apiDestroy'])->name('api.products.destroy');
+
+    // マイ商品一覧
+    Route::get('/my-products', [ProductController::class, 'myProducts']);
 });
