@@ -126,6 +126,8 @@ class ProductController extends Controller
 
         // 📄 ページネーション（1ページ 9 件）
         $products = $query->paginate(9);
+        
+        // $products = $query->get();
 
         return response()->json($products);
     }
