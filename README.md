@@ -53,7 +53,7 @@ http://localhost
 
 # ER図
 
-・・・更新中・・・
+<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/028a180a-1ad5-4e52-88f9-25abb085823e" />
 
 # 環境構築
 ## 1 Gitファイルをクローンする
