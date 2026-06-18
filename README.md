@@ -151,8 +151,11 @@ php artisan storage:link
 - Laravel + Next.js によるSPA構成にするため、Cookie認証（credentials: include）をおこなった
 - APIを中心とした設計に変更（MVC → API分離）
 - 検索・ソートをクエリパラメータで動的処理
+
+#  苦労した点
+
 - 編集画面での**所有者チェック（セキュリティ対策）*
-- 画像アップロード機能（storage連携）
+- 画像アップロード機能（storage連携）の改善のため、コントローラーなどを見直し
 
 # 将来への改善点
 
