@@ -20,7 +20,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3000'],
+    'allowed_origins' => [
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'https://fruit-furima-frontend.vercel.app',
+        ],
 
     'allowed_origins_patterns' => [],
 
