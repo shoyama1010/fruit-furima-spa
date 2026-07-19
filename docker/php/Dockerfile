@@ -12,3 +12,20 @@ RUN curl -sS https://getcomposer.org/installer | php \
   && composer self-update
 
 WORKDIR /var/www
+
+# Laravel本体をコンテナへコピー
+COPY src/ /var/www/
+
+# 本番用パッケージをインストール
+RUN composer install \
+  --no-dev \
+  --optimize-autoloader \
+  --no-interaction
+
+# Laravelが書き込むフォルダの権限
+RUN chown -R www-data:www-data \
+  /var/www/storage \
+  /var/www/bootstrap/cache
+
+# RailwayのPORTでLaravelを起動
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
