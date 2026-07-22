@@ -11,6 +11,19 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    private const SEED_IMAGE_FILENAMES = [
+        'banana.png',
+        'grapes.png',
+        'kiwi.png',
+        'melon.png',
+        'muscat.png',
+        'orange.png',
+        'peach.png',
+        'pineapple.png',
+        'strawberry.png',
+        'watermelon.png',
+    ];
+
     public function index(Request $request)
     {
 
@@ -60,27 +73,46 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $product->image = $path;
+            // 新しい画像を保存する前に、古い投稿画像だけ削除
+            $this->deleteUploadedImage($product->image);
+
+            $product->image = $request
+                ->file('image')
+                ->store('products', 'public');
         }
 
-        $product->update($request->only(['name', 'price', 'description']));
-        $product->seasons()->sync($request->seasons);
+        $product->fill(
+            $request->only([
+                'name',
+                'price',
+                'description',
+            ])
+        );
 
-        return redirect('/products');
+        $product->save();
+
+        $product->seasons()->sync(
+            $request->input('seasons', [])
+        );
+
+        return redirect('/products')
+            ->with('success', '商品を更新しました。');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        // 関連する画像ファイルも削除する場合
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
-        }
+
+        // ユーザー投稿画像だけ削除する
+        $this->deleteUploadedImage($product->image);
+
+        // 中間テーブルの関連を解除
+        $product->seasons()->detach();
 
         $product->delete();
 
-        return redirect('/products')->with('success', '商品を削除しました。');
+        return redirect('/products')
+            ->with('success', '商品を削除しました。');
     }
 
     public function search(Request $request)
@@ -126,7 +158,7 @@ class ProductController extends Controller
 
         // 📄 ページネーション（1ページ 9 件）
         $products = $query->paginate(9);
-        
+
         // $products = $query->get();
 
         return response()->json($products);
@@ -164,18 +196,36 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        //  所有者チェック
-        if ($product->user_id !== $request->user()->id) {
-            return response()->json(['message' => '権限がありません'], 403);
+        // 所有者チェック
+        if ((int) $product->user_id !== (int) $request->user()->id) {
+            return response()->json([
+                'message' => '権限がありません',
+            ], 403);
         }
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $product->image = $path;
+            // 古い投稿画像だけ削除
+            $this->deleteUploadedImage($product->image);
+
+            // 新しい画像を保存
+            $product->image = $request
+                ->file('image')
+                ->store('products', 'public');
         }
 
-        $product->update($request->only(['name', 'price', 'description']));
-        $product->seasons()->sync($request->seasons);
+        $product->fill(
+            $request->only([
+                'name',
+                'price',
+                'description',
+            ])
+        );
+
+        $product->save();
+
+        $product->seasons()->sync(
+            $request->input('seasons', [])
+        );
 
         return response()->json([
             'message' => '商品を更新しました',
@@ -183,30 +233,31 @@ class ProductController extends Controller
         ], 200);
     }
 
+
     public function apiDestroy(Request $request, $id)
     {
         $product = Product::findOrFail($id);
 
         // 自分の商品以外は削除不可
-        if ((int)$product->user_id !== (int)$request->user()->id) {
-            return response()->json(['message' => '権限がありません'], 403);
+        if ((int) $product->user_id !== (int) $request->user()->id) {
+            return response()->json([
+                'message' => '権限がありません',
+            ], 403);
         }
 
-        // 画像がある場合は削除
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
+        // ユーザー投稿画像だけ削除
+        $this->deleteUploadedImage($product->image);
 
-        // 中間テーブルの関連を外す
+        // 中間テーブルの関連を解除
         $product->seasons()->detach();
 
-        // 商品削除
         $product->delete();
 
         return response()->json([
-            'message' => '商品を削除しました'
+            'message' => '商品を削除しました',
         ], 200);
     }
+
 
     public function myProducts(Request $request)
     {
@@ -216,5 +267,40 @@ class ProductController extends Controller
             ->get();
 
         return response()->json($products);
+    }
+
+    /**
+     * ユーザーがアップロードした商品画像だけ削除する
+     */
+    private function deleteUploadedImage(?string $imagePath): void
+    {
+        if (!$imagePath) {
+            return;
+        }
+
+        // public/images 配下のSeeder固定画像は削除しない
+        if (str_starts_with($imagePath, 'images/products/')) {
+            return;
+        }
+
+        // 現在DBに残っている旧形式のSeeder固定画像も削除しない
+        if (
+            str_starts_with($imagePath, 'products/') &&
+            in_array(
+                basename($imagePath),
+                self::SEED_IMAGE_FILENAMES,
+                true
+            )
+        ) {
+            return;
+        }
+
+        // storage/app/public/products に保存された投稿画像だけ削除
+        if (
+            str_starts_with($imagePath, 'products/') &&
+            Storage::disk('public')->exists($imagePath)
+        ) {
+            Storage::disk('public')->delete($imagePath);
+        }
     }
 }
