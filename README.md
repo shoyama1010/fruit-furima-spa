@@ -58,6 +58,8 @@ http://localhost
 
 ・formrequest
 
+・Railway（DB含む）
+
 # テーブル設計
 
 <img width="751" height="784" alt="Image" src="https://github.com/user-attachments/assets/be8a03fd-82bf-487c-bc48-0d3f49017ac5" />
@@ -154,4 +156,17 @@ php artisan storage:link
 - APIを中心とした設計に変更（MVC → API分離）
 - 検索・ソートをクエリパラメータで動的処理
 - 編集画面での**所有者チェック（セキュリティ対策）**
-- 画像アップロード機能（storage連携）
+- ログイン成功時に発行されたトークンをlocalStorageへ保存し、認証が必要なAPIへAuthorization: Bearerヘッダーを付与した
+- 画像アップロード機能（storage連携）→　固定画像と投稿画像でURL形式が異なるため、getImageUrl()という共通関数を作成して表示先を切り替えた
+- 商品画像の更新・削除時に、Seederで登録した固定画像を誤って削除しない処理を追加した
+- LaravelをバックエンドAPI、Next.jsをフロントエンドとして分離し、RailwayとVercelへそれぞれデプロイした
+
+##  苦労した点
+
+- Laravelの未認証時リダイレクトによってRoute [login] not definedエラーが発生し、APIではHTMLリダイレクトではなくJSONレスポンスを返すよう修正した
+- Railwayの環境変数で、値にAPP_KEY=やAPP_URL=まで含めてしまい、暗号化キーエラーや500エラーが発生した
+- 本番環境ではLaravelとMySQLが起動していても、認証処理だけ失敗するケースがあり、APIごとに原因を切り分ける必要があった
+- Railwayの再デプロイ後にstorage配下の画像が消え、商品一覧の画像がすべて表示されなくなった
+- バナナ画像だけ実ファイルがなく、DBにはパスが残っているのに画像だけ表示されない状態の原因調査に時間がかかった
+- 商品一覧では画像が出ても、商品詳細・編集・マイページなど別画面に古いURL生成処理が残っており、全ファイルを検索して修正する必要があった
+- 
