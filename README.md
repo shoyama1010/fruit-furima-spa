@@ -3,6 +3,7 @@
 # 作成した目的
 
 Laravel（Blade）での従来のCRUDから、  Next.jsを用いたSPA構成へ移行し、  API設計・認証・フロント連携の理解を深めるために作成。
+フロント側のリポジトリ⇒　https://github.com/shoyama1010/fruit-furima-frontend
 
 # アプリケーションURL
 ローカル環境
