@@ -1,8 +1,17 @@
 # fruit-furima-spa（バックエンド）
 
+## アプリ概要
+
+Laravelを使用して開発した、メルカリ風のフリマアプリです。
+
+ユーザー登録・ログイン、商品出品、商品検索、いいね、コメント、
+商品購入、プロフィール編集など、フリマアプリに必要な主要機能を実装しました。
+
+ローカル環境ではDockerを使用し、本番環境はRailwayとMySQLで公開しています。
+
 # 作成した目的
 
-Laravel（Blade）での従来のCRUDから、  Next.jsを用いたSPA構成へ移行し、  API設計・認証・フロント連携の理解を深めるために作成。
+Laravel（Blade）での従来のCRUDを基本に、  Next.jsを用いたSPA構成へ移行し、  API設計・認証・フロント連携の理解を深めるために作成。
 フロント側のリポジトリ⇒　https://github.com/shoyama1010/fruit-furima-frontend
 
 # アプリケーションURL
