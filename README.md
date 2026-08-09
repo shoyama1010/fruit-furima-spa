@@ -159,11 +159,9 @@ php artisan storage:link
 
 # テスト
 
-## テスト
-
 本アプリでは、LaravelのFeature Testを使用して、商品APIの主要機能について動作確認を行っています。
 
-### テスト環境
+## テスト環境
 
 通常の開発用DBとは別に、テスト専用DBを使用しています。
 
@@ -194,7 +192,7 @@ tests/Feature/ProductApiTest.php に商品APIのFeature Testを実装してい�
 - 自分の商品は編集できる
 - 自分の商品を削除できる
 
-### テスト結果
+## テスト結果
 
 PASS  Tests\Feature\ProductApiTest
 
