@@ -25,10 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // ログインユーザー取得
     Route::get('/user', function (\Illuminate\Http\Request $request) {
         return response()->json($request->user());
-    });
-    // Route::get('/user', function (Request $request) {
-    //     return response()->json($request->user());
-    // });
+    }); 
 
     // 認証チェック用（必要なら残す）
     Route::get('/check-auth', function (Request $request) {

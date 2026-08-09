@@ -37,6 +37,7 @@
 
         @foreach ($products as $product)
         <a href="{{ route('products.edit',$product->id) }}" class="product-card">
+            
             <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
 
             <h3>{{ $product->name }}</h3>
