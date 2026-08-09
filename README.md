@@ -178,7 +178,6 @@ php artisan storage:link
 
 プロジェクトのルートディレクトリで、以下のコマンドを実行します。
 
-```bash
 docker compose exec php php artisan test --env=testing --filter=ProductApiTest
 
 商品APIテスト
@@ -208,6 +207,7 @@ PASS  Tests\Feature\ProductApiTest
 ✓ 自分の商品を削除できる
 
 Tests: 7 passed
+
 
 ##  工夫した点
 
