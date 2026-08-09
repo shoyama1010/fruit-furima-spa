@@ -159,7 +159,55 @@ php artisan storage:link
 
 # テスト
 
----
+## テスト
+
+本アプリでは、LaravelのFeature Testを使用して、商品APIの主要機能について動作確認を行っています。
+
+### テスト環境
+
+通常の開発用DBとは別に、テスト専用DBを使用しています。
+
+- テスト用DB：`fruit_furima_test`
+- テスト環境設定：`.env.testing`
+- テストフレームワーク：PHPUnit
+- Laravelの`RefreshDatabase`を使用し、各テストを独立した状態で実行
+
+テスト用DBを分離することで、テスト実行時に開発用DBのデータへ影響を与えない構成にしています。
+
+### テスト実行方法
+
+プロジェクトのルートディレクトリで、以下のコマンドを実行します。
+
+```bash
+docker compose exec php php artisan test --env=testing --filter=ProductApiTest
+
+商品APIテスト
+
+tests/Feature/ProductApiTest.php に商品APIのFeature Testを実装しています。
+
+以下の項目を確認しています。
+
+- 商品一覧を取得できる
+- 商品詳細を取得できる
+- 未認証ユーザーは商品登録できない
+- 認証済みユーザーは商品登録できる
+- 他人の商品は編集できない
+- 自分の商品は編集できる
+- 自分の商品を削除できる
+
+### テスト結果
+
+PASS  Tests\Feature\ProductApiTest
+
+✓ 商品一覧を取得できる
+✓ 商品詳細を取得できる
+✓ 未認証ユーザーは商品登録できない
+✓ 認証済みユーザーは商品登録できる
+✓ 他人の商品は編集できない
+✓ 自分の商品は編集できる
+✓ 自分の商品を削除できる
+
+Tests: 7 passed
 
 ##  工夫した点
 
