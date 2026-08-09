@@ -197,11 +197,17 @@ tests/Feature/ProductApiTest.php に商品APIのFeature Testを実装してい�
 PASS  Tests\Feature\ProductApiTest
 
 ✓ 商品一覧を取得できる
+
 ✓ 商品詳細を取得できる
+
 ✓ 未認証ユーザーは商品登録できない
+
 ✓ 認証済みユーザーは商品登録できる
+
 ✓ 他人の商品は編集できない
+
 ✓ 自分の商品は編集できる
+
 ✓ 自分の商品を削除できる
 
 Tests: 7 passed
