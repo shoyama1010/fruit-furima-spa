@@ -63,11 +63,13 @@ http://localhost
 
 ・MySQL 8.0.26
 
+・Docker
+
 ・storage（シンボリックリンク）
 
 ・Api/Sanctum
 
-・formrequest
+・FormRequest
 
 ・Railway（DB含む）
 
