@@ -45,7 +45,7 @@ http://localhost
 
 ##  認証・認可
 
-- Laravel Sanctum を使用したSPA認証
+- Laravel Sanctum(ローカル開発上では) を使用したSPA認証
 - Cookieベース認証（credentials: include）
 - **他ユーザーの商品編集・削除を禁止（403制御）**
 - フロント側でも編集画面遷移時にユーザー判定
