@@ -53,15 +53,15 @@ http://localhost
 # 使用技術
 ・Laravel 8
 
-・nginx 1.21.1
+・Nginx 1.21.1
 
-・php 8.0
+・PHP 8.0
 
 ・html
 
 ・css(Tailwind CSS)
 
-・mysql 8.0.26
+・MySQL 8.0.26
 
 ・storage（シンボリックリンク）
 
