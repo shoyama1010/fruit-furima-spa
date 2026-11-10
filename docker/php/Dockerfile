@@ -27,5 +27,5 @@ RUN chown -R www-data:www-data \
   /var/www/storage \
   /var/www/bootstrap/cache
 
-# RailwayのPORTでLaravelを起動
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
+# Railway起動時に公開用リンクを作成してからLaravelを起動
+CMD ["sh", "-c", "php artisan storage:link && exec php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
