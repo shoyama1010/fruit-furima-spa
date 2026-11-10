@@ -230,6 +230,7 @@ Tests: 7 passed
  Railway上のファイル配置・DB値・Next.jsのURL生成処理を検証・修正しました。
 
  ■ RailwayとVercelの連携では、storage:link や環境変数（NEXT_PUBLIC_API_BASE_URL）を確認し、本番環境でも画像が正しく取得できるように調整しました。
+ （＊更新時に画像が消えた場合は、Railwayにてシンボリックリンクを立ててから、再度ブラウザで、画像が出てるか確認します）
 
 ##  苦労した点
 
