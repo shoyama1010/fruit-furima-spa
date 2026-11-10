@@ -1,0 +1,14 @@
+.git
+.gitignore
+
+src/.env
+src/.env.*
+!src/.env.example
+
+src/vendor
+src/node_modules
+
+docker/mysql/data
+
+**/*.pem
+**/*.key
